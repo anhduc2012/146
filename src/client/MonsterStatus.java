@@ -58,6 +58,7 @@ public enum MonsterStatus implements Serializable, Buffstat {
     MAGIC_CRASH(0x10, 2),
     TRIANGULATION(0x8000, 2),
     STING_EXPLOSION(0x10000, 2),
+    BURN(0x1000000, 1),
     //speshul comes after
     EMPTY(0x8000000, 1, true),
     SUMMON(0x80000000, 1, true), //all summon bag mobs have.

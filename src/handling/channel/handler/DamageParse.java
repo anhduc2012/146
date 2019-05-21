@@ -1002,8 +1002,55 @@ public class DamageParse {
                     break;
             }
         }
+        
         double elementalMaxDamagePerMonster = maximumDamageToMonster;
-        if ((player.getJob() == 311) || (player.getJob() == 312) || (player.getJob() == 321) || (player.getJob() == 322)) {
+                /*if (player.getSkillLevel(3110001) > 0 || player.getSkillLevel(3210001) > 0 || player.getSkillLevel(13110009) > 0) { //모탈 블로우
+                    if (!monster.getStats().isBoss()) {
+                        if (monster.getHp() < monster.getMobMaxHp() * 0.3) {
+                            int y = 0;
+                            int z = 0;
+                            if (player.getSkillLevel(3110001) > 0) {
+                                y = SkillFactory.getSkill(3110001).getEffect(player.getSkillLevel(3110001)).getY();
+                                z = SkillFactory.getSkill(3110001).getEffect(player.getSkillLevel(3110001)).getZ();
+                            } else if (player.getSkillLevel(3210001) > 0) {
+                                y = SkillFactory.getSkill(3210001).getEffect(player.getSkillLevel(3210001)).getY();
+                                z = SkillFactory.getSkill(3210001).getEffect(player.getSkillLevel(3210001)).getZ();
+                            } else if (player.getSkillLevel(13110009) > 0) {
+                                y = SkillFactory.getSkill(13110009).getEffect(player.getSkillLevel(13110009)).getY();
+                                z = SkillFactory.getSkill(13110009).getEffect(player.getSkillLevel(13110009)).getZ();
+                            }
+                            if (Randomizer.nextInt(100) < y) { //즉사효과 발동
+                                //totDamageToOneMonster = 99999999;
+                                int recoverhp = (int) (player.getStat().getCurrentMaxHp() * (z / 100.0));
+                                int recovermp = (int) (player.getStat().getCurrentMaxMp(player.getJob()) * (z / 100.0));
+                                player.addHP(recoverhp);
+                                player.addMP(recovermp);
+                            }
+                        }
+                    }
+                }*/
+        int bof;
+        Skill bx;
+        MapleStatEffect eff;
+        if(player.getJob() >= 321 && player.getJob() <= 322){
+            bx = SkillFactory.getSkill(3210001);
+            bof = player.getTotalSkillLevel(bx);
+            eff = bx.getEffect(bof);
+            int Prob = eff.getY();
+            int HPReq = eff.getX();
+            int HpRecovery = eff.getZ() * player.getStat().getCurrentMaxHp() / 100;
+            int MpRecovery = eff.getZ() * player.getStat().getCurrentMaxMp(player.getJob()) / 100;
+            if (monster.getHp() < monster.getMobMaxHp() * 0.3 && !monster.getStats().isBoss() ){
+                monster.damage(player, monster.getMobMaxHp(), true, attack.skill);
+                player.addMP(MpRecovery);
+                player.healHP(HpRecovery);
+                player.getClient().getSession().write(CField.EffectPacket.showOwnBuffEffect(3112009, 7, player.getLevel(), bof));
+                player.getMap().broadcastMessage(player, CField.EffectPacket.showBuffeffect(player.getId(), 3112009, 7, player.getLevel(), bof), false);
+
+            
+            }
+        }
+        /*if ((player.getJob() == 311) || (player.getJob() == 312) || (player.getJob() == 321) || (player.getJob() == 322)) {
             Skill mortal = SkillFactory.getSkill((player.getJob() == 311) || (player.getJob() == 312) ? 3110001 : 3210001);
             if (player.getTotalSkillLevel(mortal) > 0) {
                 MapleStatEffect mort = mortal.getEffect(player.getTotalSkillLevel(mortal));
@@ -1015,7 +1062,7 @@ public class DamageParse {
                     }
                 }
             }
-        } else if ((player.getJob() == 221) || (player.getJob() == 222)) {
+        }*/ else if ((player.getJob() == 221) || (player.getJob() == 222)) {
             Skill mortal = SkillFactory.getSkill(2210000);
             if (player.getTotalSkillLevel(mortal) > 0) {
                 MapleStatEffect mort = mortal.getEffect(player.getTotalSkillLevel(mortal));

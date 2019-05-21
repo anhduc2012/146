@@ -1431,13 +1431,13 @@ public class CField {
         return mplew.getPacket();
     }
 
-    public static byte[] craftFinished(int cid, int craftID, int ranking, int itemId, int quantity, int exp) {
+    public static byte[] craftFinished(int cid, int craftID,int ranking, int failure, int itemId, int quantity, int exp) {
         MaplePacketLittleEndianWriter mplew = new MaplePacketLittleEndianWriter();
 
         mplew.writeShort(SendPacketOpcode.CRAFT_COMPLETE.getValue());
         mplew.writeInt(cid);
         mplew.writeInt(craftID);
-        mplew.writeInt(ranking);
+        mplew.writeInt(failure > 0 ? 50 : 21);
         mplew.writeInt(itemId);
         mplew.writeInt(quantity);
         mplew.writeInt(exp);

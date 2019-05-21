@@ -595,6 +595,7 @@ public class ItemMakerHandler {
         int toGet = 0;
         int expGain = 0;
         int fatigue = 0;
+        int fail = 1;
         short quantity = 1;
         CraftRanking cr = CraftRanking.GOOD;
         if (craftID == 92049000) {
@@ -754,6 +755,7 @@ public class ItemMakerHandler {
                             receive.setOwner(chr.getName());
                             receive.setGMLog("Crafted from " + craftID + " on " + FileoutputUtil.CurrentReadable_Date());
                             MapleInventoryManipulator.addFromDrop(c, receive, true, false);
+                            fail = 0;
                             if (ce.needOpenItem) {
                                 byte mLevel = chr.getMasterLevel(craftID);
                                 if (mLevel == 1) {
@@ -808,7 +810,7 @@ public class ItemMakerHandler {
         }
         MapleQuest.getInstance(2550).forceStart(c.getPlayer(), 9031000, "1");
         chr.setFatigue((byte) (chr.getFatigue() + fatigue));
-        chr.getMap().broadcastMessage(CField.craftFinished(chr.getId(), craftID, cr.i, toGet, quantity, expGain));
+        chr.getMap().broadcastMessage(CField.craftFinished(chr.getId(), craftID, cr.i, fail > 0 ? 1 : 0, toGet, quantity, expGain));
     }
 
     public static final void UsePot(final LittleEndianAccessor slea, final MapleClient c) {

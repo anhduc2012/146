@@ -3707,7 +3707,9 @@ public class PlayerStats implements Serializable {
     public final int getCurrentMaxHp() {
         return localmaxhp;
     }
-
+    public final int getCurrentMaxMp() {
+        return localmaxmp;
+    }
     public final int getCurrentMaxMp(final int job) {
         if (GameConstants.isZero(job)) {
             localmaxmp = 100;

@@ -5190,6 +5190,18 @@ public class MapleCharacter extends AnimatedMapleMapObject implements Serializab
                     changeJob((short) 1312);
                     break;
             }
+        } else if (GameConstants.isAran(job)) {
+            switch (getLevel()) {
+                case 30:
+                    changeJob((short) 2110);
+                    break;
+                case 60:
+                    changeJob((short) 2111);
+                    break;
+                case 100:
+                    changeJob((short) 2112);
+                    break;
+            }
         }
     }
 
